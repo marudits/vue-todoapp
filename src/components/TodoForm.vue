@@ -71,7 +71,7 @@ export default {
         }
     },
     methods: {
-        handleForm(type, value, options){
+        handleForm(type){
             switch(type){
                 case 'reset':
                     this.form = {

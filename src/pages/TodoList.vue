@@ -28,7 +28,7 @@
                                     :label="category.name"
                                     :value="category.key"
                                 )
-                    el-col(:xs="24" :sm="8")
+                    el-col(:xs="24" :sm="8").progress-info
                         p {{ data.filter(x => x.is_done).length }} of {{ data.length }} has completed.
                         ProgressBar(:percentage="(data.filter(x => x.is_done).length / data.length) * 100 || 0")
         .todo-list__form
@@ -182,6 +182,12 @@ export default {
 
         &__filter {
             margin-bottom: 1rem;
+
+            .progress-info {
+                p {
+                    margin: 0;
+                }
+            }
         }
 
         &__form {

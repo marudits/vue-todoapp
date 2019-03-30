@@ -1,7 +1,7 @@
 <template>
   <el-container id="app">
     <el-header>
-      <h1>TodoApp</h1>
+      <h1>WhatTodo</h1>
     </el-header>
     <el-main>
       <TodoList />
