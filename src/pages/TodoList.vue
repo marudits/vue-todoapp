@@ -28,12 +28,21 @@
                                     :label="category.name"
                                     :value="category.key"
                                 )
+        .todo-list__form
+            el-collapse(v-model="form.todo" accordion)
+                el-collapse-item(name="todo-add")
+                    template(slot="title")
+                        p
+                            i.el-icon-caret-top(v-if="form.todo !== ''") 
+                            i.el-icon-caret-bottom(v-else) 
+                            | Add New Item
+                    TodoForm(v-on:form-close="handleClick('form-close')")
         .todo-list__content    
             el-timeline
                 el-timeline-item(
                     v-for="(item, index) in data"
                     :key="index"
-                    :timestamp="item.due_at"
+                    :timestamp="new Date(item.due_at).toLocaleString()"
                     placement="top"
                     v-bind:class="{completed: item.is_done}"
                 ).todo-item
@@ -47,23 +56,30 @@
                                 icon="el-icon-delete" size="mini" type="danger" circle
                                 @click="() => handleClick('remove-todo', item)"
                             )
-                        h3
-                            |{{ item.title }}
+                        h3 {{ item.title }}
                     .todo-item__footer
                         |{{item.category}}
 </template>
 
 <script>
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
+
+// components
+import TodoForm from '../components/TodoForm';
 
 export default {
     name: 'TodoList',
     computed: {
         ...mapState([
             'categories',
-            'todos'
+        ]),
+        ...mapGetters([
+            'sortedData'
         ])
+    },
+    components: {
+        TodoForm
     },
     created(){
         this.loadList();
@@ -72,7 +88,8 @@ export default {
         return {
             form: {
                 categories: [],
-                status: null
+                status: null,
+                todo: ''
             },
             filters: {
                 status: [
@@ -92,6 +109,9 @@ export default {
                     break;
                 case 'remove-todo':
                     this.$store.commit('removeTodo', value);                    
+                    break;
+                case 'form-close':
+                    this.form.todo = '';                   
                     break;
             }
         },
@@ -123,7 +143,11 @@ export default {
             }
         },
         loadList(){
-            this.data = this.$store.state.todos;
+            this.data = this.sortedData;
+        }
+    },
+    watch: {
+        sortedData(){
         }
     }
 }
@@ -132,13 +156,37 @@ export default {
 
 <style lang="scss">
     @import '../assets/styles/variable.scss';
-
     .todo-list {
         text-align: left;
-        margin: 0 10%;
+        margin: 0;
 
         &__filter {
+            margin-bottom: 1rem;
+        }
+
+        &__form {
             margin-bottom: 2rem;
+            
+            .el-collapse-item {
+                
+                &__header {
+
+                    p {
+                        width: 100%;
+                        text-align: center;
+                        margin-bottom: 0;
+
+                        i {
+                            font-size: 1.25em;
+                            margin-right: .5rem;
+                        }
+                    }
+                }
+
+                &__arrow {
+                    display: none;
+                }
+            }
         }
 
         &__content {
