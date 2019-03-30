@@ -68,6 +68,9 @@ import { mapState, mapGetters } from 'vuex';
 // components
 import TodoForm from '../components/TodoForm';
 
+// shared
+import { CONSTANTS } from '../shared/constants';
+
 export default {
     name: 'TodoList',
     computed: {
@@ -105,10 +108,10 @@ export default {
         handleClick(type, value){
             switch(type){
                 case 'toggle-is-done':
-                    this.$store.commit('toggleIsDone', value);                    
+                    this.$store.dispatch(CONSTANTS.ACTIONS.TODO.TOGGLE_IS_DONE, value);                    
                     break;
                 case 'remove-todo':
-                    this.$store.commit('removeTodo', value);                    
+                    this.$store.dispatch(CONSTANTS.ACTIONS.TODO.REMOVE, value);                    
                     break;
                 case 'form-close':
                     this.form.todo = '';                   
