@@ -3,7 +3,7 @@
         .todo-list__filter
             el-form(:inline="true" v-model="form")
                 el-row
-                    el-col(:span="12")
+                    el-col(:xs="12" :sm="8")
                         el-form-item(label="Status")
                             el-select(
                                 v-model="form.status" 
@@ -16,7 +16,7 @@
                                     :label="status.label"
                                     :value="status.value"
                                 )
-                    el-col(:span="12")
+                    el-col(:xs="12" :sm="8")
                         el-form-item(label="Categories")
                             el-select(
                                 v-model="form.categories" placeholder="Select Categories" multiple collapse-tags
@@ -28,6 +28,9 @@
                                     :label="category.name"
                                     :value="category.key"
                                 )
+                    el-col(:xs="24" :sm="8")
+                        p {{ data.filter(x => x.is_done).length }} of {{ data.length }} has completed.
+                        ProgressBar(:percentage="(data.filter(x => x.is_done).length / data.length) * 100 || 0")
         .todo-list__form
             el-collapse(v-model="form.todo" accordion)
                 el-collapse-item(name="todo-add")
@@ -36,12 +39,13 @@
                             i.el-icon-caret-top(v-if="form.todo !== ''") 
                             i.el-icon-caret-bottom(v-else) 
                             | Add New Item
-                    TodoForm(v-on:form-close="handleClick('form-close')")
+                    TodoForm(v-on:form-close="handleClick('form-close')" v-on:show-message="(msg, type) => showMessage(msg, type)")
         .todo-list__content    
             el-timeline
                 el-timeline-item(
                     v-for="(item, index) in data"
                     :key="index"
+                    :icon="mapCategoryToIcon(item.category)"
                     :timestamp="new Date(item.due_at).toLocaleString()"
                     placement="top"
                     v-bind:class="{completed: item.is_done}"
@@ -57,8 +61,6 @@
                                 @click="() => handleClick('remove-todo', item)"
                             )
                         h3 {{ item.title }}
-                    .todo-item__footer
-                        |{{item.category}}
 </template>
 
 <script>
@@ -66,6 +68,7 @@
 import { mapState, mapGetters } from 'vuex';
 
 // components
+import ProgressBar from '../components/ProgressBar';
 import TodoForm from '../components/TodoForm';
 
 // shared
@@ -82,9 +85,10 @@ export default {
         ])
     },
     components: {
+        ProgressBar,
         TodoForm
     },
-    created(){
+    mounted(){
         this.loadList();
     },
     data: () => {
@@ -101,17 +105,24 @@ export default {
                     { label: 'Uncompleted', value: 'uncompleted' }
                 ]
             },
-            data: null
+            data: [],
+            stats: {
+                percentage: 0,
+                completed: 0,
+                total: 0
+            }
         }
     },
     methods: {
         handleClick(type, value){
             switch(type){
                 case 'toggle-is-done':
-                    this.$store.dispatch(CONSTANTS.ACTIONS.TODO.TOGGLE_IS_DONE, value);                    
+                    this.$store.dispatch(CONSTANTS.ACTIONS.TODO.TOGGLE_IS_DONE, value);
+                    this.showMessage('Item status has been updated', 'info');
                     break;
                 case 'remove-todo':
-                    this.$store.dispatch(CONSTANTS.ACTIONS.TODO.REMOVE, value);                    
+                    this.$store.dispatch(CONSTANTS.ACTIONS.TODO.REMOVE, value);
+                    this.showMessage('Item is removed', 'error');
                     break;
                 case 'form-close':
                     this.form.todo = '';                   
@@ -147,11 +158,17 @@ export default {
         },
         loadList(){
             this.data = this.sortedData;
-        }
+        },
+        mapCategoryToIcon(category){
+            return CONSTANTS.TODOS.CATEGORIES.find(x => x.key === category)['icon'];
+        },
+        showMessage(message = 'Lorem ipsum dolor sit amet', type = 'message',){
+            this.$message({ type, message })
+        },
     },
     watch: {
         sortedData(){
-        }
+        },
     }
 }
 </script>
@@ -207,15 +224,12 @@ export default {
 
                     h3 {
                         text-decoration: line-through;
+                        color: lightgray;
                     }                    
                 }
 
                 &__title {
-                    display: inline-flex;
-
                     .actions {
-                        margin-right: .5rem;
-
                         button {
                             &.toggle {
                                 color: gray;
@@ -226,7 +240,29 @@ export default {
                     }
 
                     h3 {
-                        margin-top: .25rem;
+                        margin-top: .5rem;
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            .el-timeline {
+                &-item {
+                    &__node {
+                        width: 1.3rem;
+                        height: 1.3rem;
+                        left: -0.3rem;
+                        top: -0.3rem;
+
+                        // &:hover {
+                        background-color: $teal-lighten-3;
+                        // }
+
+                        i {
+                            &:hover {
+                                color: $teal;
+                            }
+                        }
                     }
                 }
             }

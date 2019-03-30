@@ -92,6 +92,7 @@ export default {
 
                             this.$refs['todo-form'].resetFields();
                             this.$emit('form-close');
+                            this.$emit('show-message', 'Successfully add new item', 'success');
                         }
                     })
                     break;

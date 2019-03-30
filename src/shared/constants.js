@@ -13,11 +13,11 @@ export const CONSTANTS = {
     },
     TODOS: {
         CATEGORIES: [
-            { name: 'Shopping', key: 'shopping' },
-            { name: 'Meeting', key: 'meeting' },
-            { name: 'Work', key: 'work' },
-            { name: 'Task', key: 'task' },
-            { name: 'Call', key: 'call' }
+            { name: 'Shopping', key: 'shopping', icon: 'el-icon-goods' },
+            { name: 'Meeting', key: 'meeting', icon: 'el-icon-date' },
+            { name: 'Work', key: 'work', icon: 'el-icon-news' },
+            { name: 'Task', key: 'task', icon: 'el-icon-edit-outline' },
+            { name: 'Call', key: 'call', icon: 'el-icon-phone-outline' }
         ]
     }
 }
