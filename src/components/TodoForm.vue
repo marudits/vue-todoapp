@@ -28,6 +28,9 @@
 <script>
 import { mapState } from 'vuex';
 
+// shared
+import { CONSTANTS } from '../shared/constants';
+
 export default {
     name: 'TodoForm',
     computed: {
@@ -81,7 +84,7 @@ export default {
                 case 'submit':
                     this.$refs['todo-form'].validate((valid) => {
                         if(valid){
-                            this.$store.commit('addTodo', Object.assign(
+                            this.$store.dispatch(CONSTANTS.ACTIONS.TODO.ADD, Object.assign(
                                 {}, this.form, 
                                 { id: new Date().getTime(), due_at: new Date(this.form.due_at).getTime()}
                                 )
@@ -89,6 +92,7 @@ export default {
 
                             this.$refs['todo-form'].resetFields();
                             this.$emit('form-close');
+                            this.$emit('show-message', 'Successfully add new item', 'success');
                         }
                     })
                     break;
