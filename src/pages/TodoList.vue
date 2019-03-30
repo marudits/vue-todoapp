@@ -8,7 +8,7 @@
                             el-select(
                                 v-model="form.status" 
                                 placeholder="Select Status" 
-                                @change="(e) => handleForm('change-status', e)"
+                                @change="() => handleForm('change-status')"
                             )
                                 el-option(
                                     v-for="(status, index) in filters.status"
@@ -17,8 +17,11 @@
                                     :value="status.value"
                                 )
                     el-col(:span="12")
-                        el-form-item(label="Category")
-                            el-select(v-model="form.category" placeholder="Select Category" multiple collapse-tags)
+                        el-form-item(label="Categories")
+                            el-select(
+                                v-model="form.categories" placeholder="Select Categories" multiple collapse-tags
+                                @change="() => handleForm('change-categories')"
+                                )
                                 el-option(
                                     v-for="(category, index) in categories"
                                     :key="index"
@@ -64,7 +67,7 @@ export default {
     data: () => {
         return {
             form: {
-                category: [],
+                categories: [],
                 status: null
             },
             filters: {
@@ -85,10 +88,10 @@ export default {
                     break;
             }
         },
-        handleForm(type, value){
+        handleForm(type){
             switch(type){
                 case 'change-status':
-                    switch(value){
+                    switch(this.form.status){
                         case 'all':
                             this.loadList();
                             break;
@@ -100,7 +103,8 @@ export default {
                             break;
                     }
                     break;
-                case 'change-category':
+                case 'change-categories':
+                    this.data = this.$store.getters.filteredCategories(this.form.categories);
                     break;
             }
         },

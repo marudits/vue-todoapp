@@ -18,7 +18,7 @@ export default new Vuex.Store({
     getters: {
         completedTodos: (state) => state.todos.filter(x => x.is_done),
         uncompletedTodos: (state) => state.todos.filter(x => !x.is_done),
-        filterTodosBycCategory: (state) => (category) => state.todos.filter(x => x.category === category)
+        filteredCategories: (state) => (categories) => state.todos.filter(x => categories.indexOf(x.category) !== -1)
     },
     mutations: {
         toggleIsDone(state, todo){

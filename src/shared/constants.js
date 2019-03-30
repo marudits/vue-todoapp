@@ -3,8 +3,8 @@ export const CONSTANTS = {
         CATEGORIES: [
             { name: 'Shopping', key: 'shopping' },
             { name: 'Meeting', key: 'meeting' },
-            { name: 'Work', key: 'Work' },
-            { name: 'Task', key: 'Task' },
+            { name: 'Work', key: 'work' },
+            { name: 'Task', key: 'task' },
             { name: 'Call', key: 'call' }
         ]
     }
