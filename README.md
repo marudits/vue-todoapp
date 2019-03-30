@@ -1,29 +1,40 @@
-# todoapp
+# WhatTodo
 
-## Project setup
-```
-npm install
-```
+WhatTodo is an simple application manage your tasks and to-do list easily and convenient. This application is built using Vue.js.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Installation
 
-### Compiles and minifies for production
-```
-npm run build
+This app needs to be run on **Node.js** environment. Please make sure you have `node` and `npm` installed on your machine, or you can download and install by following instructions [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm). It is recommended to install or update to latest version.
+
+You can check `node` and `npm` on your machine using these commands
+
+```sh
+$ node -v
+$ npm -v
 ```
 
-### Run your tests
-```
-npm run test
+### Getting started
+
+You can run this application by execute *bash* files on `./bin` folder
+
+Setup project (run linter tool and setup/install dependency)
+```sh
+$ ./bin/lint
+$ ./bin/setup
 ```
 
-### Lints and fixes files
-```
-npm run lint
+Build project (optional)
+```sh
+$ ./bin/build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Run application
+```sh
+$ ./bin/(start|start_pm2)
+```
+
+### License
+No-Licensed
+
+### Developed by
+[**marudits**](mailto:marudits@gmail.com)
