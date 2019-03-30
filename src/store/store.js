@@ -21,6 +21,10 @@ export default new Vuex.Store({
         filteredCategories: (state) => (categories) => state.todos.filter(x => categories.indexOf(x.category) !== -1)
     },
     mutations: {
+        removeTodo(state, todo){
+            let { todos } = state;
+            todos.splice(todos.indexOf(todo), 1)
+        },
         toggleIsDone(state, todo){
             todo.is_done = !todo.is_done;
         }

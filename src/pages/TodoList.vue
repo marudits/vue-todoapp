@@ -39,9 +39,13 @@
                 ).todo-item
                     .todo-item__title
                         .actions
-                            el-button(
+                            el-button.toggle(
                                 icon="el-icon-check" size="mini" circle
                                 @click="() => handleClick('toggle-is-done', item)"
+                            )
+                            el-button.remove(
+                                icon="el-icon-delete" size="mini" type="danger" circle
+                                @click="() => handleClick('remove-todo', item)"
                             )
                         h3
                             |{{ item.title }}
@@ -85,6 +89,9 @@ export default {
             switch(type){
                 case 'toggle-is-done':
                     this.$store.commit('toggleIsDone', value);                    
+                    break;
+                case 'remove-todo':
+                    this.$store.commit('removeTodo', value);                    
                     break;
             }
         },
@@ -132,9 +139,11 @@ export default {
                 &.completed {
                     .actions {
                         button {
-                            color: $teal;
-                            border-color: $teal-lighten-2;
-                            background-color: $teal-lighten-4;
+                            &.toggle {
+                                color: $teal;
+                                border-color: $teal-lighten-2;
+                                background-color: $teal-lighten-4;
+                            }
                         }
                     }
 
@@ -150,9 +159,11 @@ export default {
                         margin-right: .5rem;
 
                         button {
-                            color: gray;
-                            border-color: lightgray;
-                            background-color: white;
+                            &.toggle {
+                                color: gray;
+                                border-color: lightgray;
+                                background-color: white;
+                            }
                         }
                     }
 
