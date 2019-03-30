@@ -108,10 +108,17 @@ export default {
                         case 'uncompleted':
                             this.data = this.$store.getters.uncompletedTodos;
                             break;
+                        default:
+                            this.loadList();
+                            break;
                     }
                     break;
                 case 'change-categories':
-                    this.data = this.$store.getters.filteredCategories(this.form.categories);
+                    if(this.form.categories.length > 0){
+                        this.data = this.$store.getters.filteredCategories(this.form.categories);
+                    } else {
+                        this.handleForm('change-status');
+                    }
                     break;
             }
         },
