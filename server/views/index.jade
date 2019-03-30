@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  div.api-disclaimer
+    p 
+      em Disclaimer: This server is created to show blueprint of Todos API. It doesn't connect with Todos App (WhatTodo)
+  
+  div.api-info
+    h3 Posts API
+    table
+      thead
+        tr
+          th Method
+          th Endpoint
+          th Req
+          th Description
+      tbody
+        tr
+          td GET
+          td /posts
+          td There are 2 (optional) request query
+            ul
+              li status: completed|uncompleted
+              li categories: {category,...}
+          td Get (asc due_at sorted) todos (filtered) items
+        tr
+          td GET
+          td /posts/:id
+          td There is 1 (mandatory) request params
+            ul
+              li id: String
+          td Get item with id {:id}
+        tr
+          td POST
+          td /posts
+          td There are 3 (mandatory) request body
+            ul
+              li title: String
+              li category: String(Category)
+              li due_at: int(timestamp)
+          td Add todo item
+        tr
+          td PUT
+          td /posts/:id
+          td There is 1 (mandatory) request params and request body
+            ul
+              li id: String
+          td Update data of item {:id} with request body data
+        tr
+          td DELETE
+          td /posts/:id
+          td There is 1 (mandatory) request params
+            ul
+              li id: String
+          td Remove item with id {:id}
+      tfoot
+        tr
+          td(colspan="4") You can use this 
+            a(href="https://www.getpostman.com/collections/d0ff7325413e5a6f9334" target="_blank") postman collections
+            | &nbsp;request testing.
