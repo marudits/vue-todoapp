@@ -30,8 +30,13 @@ $ ./bin/build
 
 Run application
 ```sh
-$ ./bin/(start|start_pm2)
+$ ./bin/(start|start_pm2|start_server)
 ```
+
+Notes:
+- UI will have default url: [**http://localhost:8080**](http://localhost:8080)
+- API (server) will have default url: [**http://localhost:3000**](http://localhost:3000)
+- Use this [**postman collections**](https://www.getpostman.com/collections/d0ff7325413e5a6f9334) to test API
 
 ### License
 No-Licensed
