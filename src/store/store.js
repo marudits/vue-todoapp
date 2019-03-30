@@ -11,16 +11,21 @@ export default new Vuex.Store({
     state: {
         categories: CONSTANTS.TODOS.CATEGORIES,
         todos: [
-            { id: 1, title: 'Todo 1', category: 'shopping', is_done: true, due_at: new Date('2019-03-31 15:00:00').toLocaleString() },
-            { id: 2, title: 'Todo 2', category: 'work', is_done: false, due_at: new Date('2019-03-31 16:00:00').toLocaleString() }
+            { id: 1, title: 'Todo 1', category: 'shopping', is_done: true, due_at: new Date('2019-03-31 15:00:00').getTime() },
+            { id: 2, title: 'Todo 2', category: 'work', is_done: false, due_at: new Date('2019-03-31 16:00:00').getTime() },
+            { id: 3, title: 'Todo 3', category: 'call', is_done: false, due_at: new Date('2019-03-31 15:30:00').getTime() }
         ],
     },
     getters: {
+        sortedData: (state) => state.todos.sort((a,b) => a.due_at - b.due_at),
         completedTodos: (state) => state.todos.filter(x => x.is_done),
         uncompletedTodos: (state) => state.todos.filter(x => !x.is_done),
         filteredCategories: (state) => (categories) => state.todos.filter(x => categories.indexOf(x.category) !== -1)
     },
     mutations: {
+        addTodo(state, todo){
+            state.todos.push(todo);
+        },
         removeTodo(state, todo){
             let { todos } = state;
             todos.splice(todos.indexOf(todo), 1)
